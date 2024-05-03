@@ -7,6 +7,9 @@ export default function Home() {
     <Container>
       <Link href="/progress">Progress</Link>
       <Link href="/home">Home</Link>
+      <Link href="/login">Login</Link>
+      <Link href="/registration">Registration</Link>
+      <Link href="/routines">Routines</Link>
     </Container>
   );
 }

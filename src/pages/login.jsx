@@ -3,18 +3,16 @@ import { Footer } from "@/components/MainPage/Footer"
 import { Profile } from "@/components/ProgressPage/Profile";
 import {ProgressProvider} from "@/Context/ProgressContext";
 import { WeightChart } from "@/components/WeightChart";
+import LogInForm from "@/components/LogInForm"
 
 
 
-export default function Progress() {
+export default function LogIn() {
   
   return (
     <>
       <ProgressProvider>
-        <MyNavbar/>
-        <Profile/>
-        <WeightChart />
-        {/* <Footer/> */}
+        <LogInForm/>
       </ProgressProvider>
 
     </>

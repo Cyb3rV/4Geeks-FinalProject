@@ -11,10 +11,10 @@ export function MyNavbar() {
     <Navbar.Toggle/>
     <Navbar.Collapse>
     <Nav className="ms-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#progress">Progress</Nav.Link>
-        <Nav.Link href="#services">Routine</Nav.Link>
-        <Nav.Link href="#contact">Feeding</Nav.Link>
+        <Nav.Link href="/home">Home</Nav.Link>
+        <Nav.Link href="/progress">Progress</Nav.Link>
+        <Nav.Link href="/routines">Routines</Nav.Link>
+        <Nav.Link href="/contact">Feeding</Nav.Link>
     </Nav>
     </Navbar.Collapse>
     </Container>
