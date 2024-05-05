@@ -1,0 +1,59 @@
+const { useReducer, createContext, useEffect } = require("react");
+
+
+
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = 'https://ijnhfoehgzuzlkriaoak.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlqbmhmb2VoZ3p1emxrcmlhb2FrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MTgxNjAsImV4cCI6MjAzMDI5NDE2MH0.cTpLh8D93_WcIl3uo1qwoFbdi9T96lF_fe7BFJnQV6w';
+// Create a single supabase client for interacting with your database
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+
+
+const DataContext = createContext(null);
+
+async function DataReducer(state, action){
+    switch(action.type){
+        case "add":                       
+            try{          
+                await supabase.from(action.payload.table).insert(action.payload.data)
+                return { ...state, error: false };
+
+            } catch(error){
+                console.error("Error inserting data:", error.message);
+                return { ...state, error: true };
+            }
+
+
+        default:
+            return state;
+    }
+}
+
+const initialState = {
+    user: "",
+    password: "",
+    email: "",
+    error: false
+}
+
+
+export function DataProvider({children}){
+    const [data, dataActions] = useReducer(DataReducer, initialState);
+
+    useEffect(() => {
+        console.log(data.error);
+      },[]);
+    
+    //   useEffect(() => {
+    //     console.log(data.error);
+    //   },[data]);
+
+    return(
+        <DataContext.Provider value={{data, dataActions}}>{children}</DataContext.Provider>
+    );
+
+}
+
+export default DataContext;
