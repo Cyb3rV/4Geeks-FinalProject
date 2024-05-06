@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import Link from "next/link";
-import DataContext from "@/components/DataContext";
+import DataContext from "@/Context/DataContext";
 
 
 function RegistrationForm () {

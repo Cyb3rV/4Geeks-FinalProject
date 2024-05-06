@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import Link from "next/link";
-import DataContext from "@/components/DataContext";
+import DataContext from "@/Context/DataContext";
 import { useRouter } from 'next/router';
 
 

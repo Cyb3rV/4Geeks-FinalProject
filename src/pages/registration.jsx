@@ -1,4 +1,4 @@
-import { DataProvider } from "@/components/DataContext";
+import { DataProvider } from "@/Context/DataContext";
 import RegistrationForm from "@/components/RegistrationForm"
 
 
