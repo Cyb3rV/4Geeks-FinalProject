@@ -36,16 +36,13 @@ function RegistrationForm () {
 }
 
   useEffect(() => {
-    console.log(data.error);
+    // console.log(data.error);
     // if(!data.error){
     //   userRef.current.value = "";
     //   emailRef.current.value = "";
     //   passwordRef.current.value = "";
     // }
   },[data]);
-
-
-
 
   
   return (
