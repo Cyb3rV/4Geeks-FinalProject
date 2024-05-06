@@ -12,9 +12,9 @@ export default function HomePage() {
       <DataProvider>
         <MyNavbar/>
         <WeightReminder/>
-        <MyContainer/>
-
-        <Footer/>
+        {/* <MyContainer/> */}
+{/* 
+        <Footer/> */}
       </DataProvider>
     </>
   );

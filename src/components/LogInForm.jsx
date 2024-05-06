@@ -3,10 +3,12 @@ import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 import Link from "next/link";
 import DataContext from "@/Context/DataContext";
 import { useRouter } from 'next/router';
+import ProfileContext from '@/Context/ProfileContext';
 
 
 function LogInForm() {
   const router = useRouter();
+  const {profileData, setProfileData} = useContext(ProfileContext);
   const {data, dataActions} = useContext(DataContext);
   const [loginError, setLoginError] = useState(false);
 
@@ -44,6 +46,8 @@ useEffect(() => {
       resolvedData.forEach(item => {
         if(item.email === emailRef.current.value && item.password === passwordRef.current.value){
           console.log("CORRECT!");
+          setProfileData({...profileData, email: item.email, account_id: item.id})
+          //setProfileData({...profileData, email: [...profileData.email, item.email], account_id:})
           router.push('/')
         }
       });
