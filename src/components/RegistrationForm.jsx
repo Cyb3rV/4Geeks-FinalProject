@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import Link from "next/link";
+import { useRouter } from 'next/router';
 import DataContext from "@/Context/DataContext";
 
 
 function RegistrationForm () {
   const {data, dataActions} = useContext(DataContext);
 
+  const router = useRouter();
   const userRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -28,7 +30,7 @@ function RegistrationForm () {
       // userRef.current.value = "";
       // emailRef.current.value = "";
       // passwordRef.current.value = "";
-
+      router.push('/login');
     } catch (error) {
       console.error("Error al enviar los datos:", error);
       // Manejar el error aquí

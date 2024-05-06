@@ -20,11 +20,6 @@ export function Profile(){
               </Row>
             </Container>
             <Container className="p-5 d-flex flex-column justify-content-around">
-            <Row>
-                <Col>
-                  <h2>Email: {profileData.email}</h2>  
-                </Col>
-              </Row>
               <Row>
                 <Col>
                   <h2>Name: {profileData.name}</h2>  

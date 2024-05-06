@@ -21,7 +21,7 @@ const initialState = {
 
 export function ProfileProvider({children}){
     const [profileData, setProfileData] = useState(initialState);
-    const {data, dataActions} = useContext(DataContext);
+    // const {data, dataActions} = useContext(DataContext);
 
     
     useEffect(() => {

@@ -21,7 +21,7 @@ export default function AddExerciseModal({show, exercise, AddExerciseCallback, s
         </Modal.Header>
         <Modal.Body>
           <h5>{exercise}</h5>
-          <img src="https://s.cafebazaar.ir/images/icons/com.workout.fitness.exercise.loseweight.gymworkout-02dab361-d1ae-4fd0-be8d-ad108b93e49b_512x512.png?x-img=v1/format,type_webp,lossless_false/resize,h_256,w_256,lossless_false/optimize" width={"128px"}></img>
+          <img src="https://pic.onlinewebfonts.com/thumbnails/icons_530689.svg" width={"128px"}></img>
             <br></br>
           <input type="text" ref={dayRef} placeholder="Day"></input>
           <input type="text" ref={repetitionsRef} placeholder="Repetitions"></input>

@@ -52,7 +52,7 @@ export function WeightReminder(){
                 console.log("CORRECT!");
                 //solucion temporal. cuando se insertan los datos, se llama este useEffect, pero cuando se llaman,
                 //no aparecen con los datos nuevos aun
-                setTimeout(setLastMeasurement({date: item.date, weight: item.weight}), 1000);
+                setTimeout(setLastMeasurement({date: item.date, weight: item.weight}), 2000);
               }
             });
           } else {
@@ -62,13 +62,17 @@ export function WeightReminder(){
         fetchData();
       }, [data]);
 
+      useEffect(() =>{
+        console.log("entro", lastMeasurement);
+      },[lastMeasurement]);
+
     return(
         <>
             <Container style={{ maxWidth: "900px" }}>
             <Card className=" p-0 " bg={'light'}>
                 <Row>
                     <Col>
-                        <h1 className="text-center">It's time to weigh yourself</h1>
+                        <h1 className="text-center">It's time to weight yourself</h1>
                     </Col>
                 </Row>
                 <Row >

@@ -1,6 +1,6 @@
 import { MyNavbar } from "@/components/MainPage/MyNavbar"
 import { Footer } from "@/components/MainPage/Footer"
-import {ProgressProvider} from "@/Context/ProfileContext";
+import {ProfileProvider} from "@/Context/ProfileContext";
 import { RoutineDisplay } from "@/components/RoutineDisplay";
 
 
@@ -9,7 +9,7 @@ export default function Routines() {
   
   return (
     <>
-      <ProgressProvider>
+      <ProfileProvider>
         <MyNavbar/>
         <RoutineDisplay deletable={false} day={"Monday"}/>
         <RoutineDisplay deletable={false} day={"Tuesday"}/>
@@ -17,7 +17,7 @@ export default function Routines() {
         <RoutineDisplay deletable={false} day={"Thursday"}/>
         <RoutineDisplay deletable={false} day={"Friday"}/>
         {/* <Footer/> */}
-      </ProgressProvider>
+      </ProfileProvider>
 
     </>
   );
