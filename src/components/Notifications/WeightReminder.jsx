@@ -72,7 +72,7 @@ export function WeightReminder(){
             <Card className=" p-0 " bg={'light'}>
                 <Row>
                     <Col>
-                        <h1 className="text-center">It's time to weight yourself</h1>
+                        <h1 className="text-center">It's time to weigh yourself</h1>
                     </Col>
                 </Row>
                 <Row >
