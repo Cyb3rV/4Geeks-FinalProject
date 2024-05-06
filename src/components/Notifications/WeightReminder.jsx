@@ -33,7 +33,6 @@ export function WeightReminder(){
             console.error("Error al enviar los datos:", error);
             
         }};
-        console.log("noooo");
         fetchData();
     }, []);
 
@@ -60,13 +59,8 @@ export function WeightReminder(){
             console.log("WRONG!");
           }
         };
-        console.log("siiiii");
         fetchData();
       }, [data]);
-
-      useEffect(() =>{
-        console.log("entro", lastMeasurement);
-      },[lastMeasurement]);
 
     return(
         <>

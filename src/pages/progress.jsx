@@ -1,7 +1,7 @@
 import { MyNavbar } from "@/components/MainPage/MyNavbar"
 import { Footer } from "@/components/MainPage/Footer"
 import { Profile } from "@/components/ProgressPage/Profile";
-import {ProgressProvider} from "@/Context/ProgressContext";
+import {DataProvider} from "@/Context/DataContext";
 import { WeightChart } from "@/components/WeightChart";
 
 
@@ -10,12 +10,12 @@ export default function Progress() {
   
   return (
     <>
-      <ProgressProvider>
+      <DataProvider>
         <MyNavbar/>
         <Profile/>
         <WeightChart />
         {/* <Footer/> */}
-      </ProgressProvider>
+      </DataProvider>
 
     </>
   );
