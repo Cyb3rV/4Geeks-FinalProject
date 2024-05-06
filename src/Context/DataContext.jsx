@@ -32,8 +32,6 @@ async function DataReducer(state, action){
                 return state;
             }
 
-
-
             
         case "consultWithCondition":
 
