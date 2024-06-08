@@ -8,12 +8,7 @@ export default function LogIn() {
   
   return (
     <>
-      <DataProvider>
-        <ProfileProvider>
           <LogInForm/>
-        </ProfileProvider>
-      </DataProvider>
-
     </>
   );
 }

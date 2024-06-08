@@ -46,10 +46,17 @@ useEffect(() => {
       resolvedData.forEach(item => {
         if(item.email === emailRef.current.value && item.password === passwordRef.current.value){
           console.log("CORRECT!");
-         // setProfileData({...profileData, email: item.email, account_id: item.id})
+         
+          router.push('/home');
+          // setProfileData({...profileData, email: item.email, account_id: item.id, userName: item.user})
+          setProfileData({email: item.email, account_id: item.id, userName: item.user});
           //setProfileData({...profileData, email: [...profileData.email, item.email], account_id:})
           // setLoginError(false);
-          router.push('/home');
+
+          
+          setTimeout(() => {
+            
+          }, 2000);
         }
       });
     } else {

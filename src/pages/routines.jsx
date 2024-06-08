@@ -9,7 +9,6 @@ export default function Routines() {
   
   return (
     <>
-      <ProfileProvider>
         <MyNavbar/>
         <RoutineDisplay deletable={false} day={"Monday"}/>
         <RoutineDisplay deletable={false} day={"Tuesday"}/>
@@ -17,8 +16,6 @@ export default function Routines() {
         <RoutineDisplay deletable={false} day={"Thursday"}/>
         <RoutineDisplay deletable={false} day={"Friday"}/>
         {/* <Footer/> */}
-      </ProfileProvider>
-
     </>
   );
 }

@@ -20,7 +20,7 @@ const initialState = {
 
 
 export function ProfileProvider({children}){
-    const [profileData, setProfileData] = useState(initialState);
+    const [profileData, setProfileData] = useState({});
     // const {data, dataActions} = useContext(DataContext);
 
     

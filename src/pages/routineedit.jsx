@@ -10,12 +10,9 @@ export default function Routines() {
   
   return (
     <>
-      <ProfileProvider>
         <MyNavbar/>
         <RoutineChanger/>
         {/* <Footer/> */}
-      </ProfileProvider>
-
     </>
   );
 }

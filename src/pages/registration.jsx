@@ -8,10 +8,7 @@ export default function Registration() {
   
   return (
     <>
-      <DataProvider>
         <RegistrationForm/>
-      </DataProvider>
-
     </>
   );
 }

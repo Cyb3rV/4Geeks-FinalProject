@@ -10,12 +10,9 @@ export default function RoutinesChangerAdderPage() {
   
   return (
     <>
-      <ProfileProvider>
         <MyNavbar/>
         <RoutineChangerAdder/>
         {/* <Footer/> */}
-      </ProfileProvider>
-
     </>
   );
 }
