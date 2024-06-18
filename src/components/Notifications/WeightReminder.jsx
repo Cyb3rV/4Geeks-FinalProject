@@ -1,13 +1,15 @@
-import DataContext from "@/Context/DataContext";
 import { useContext, useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import AddWeightModal from "../AddWeightModal";
+import ProfileContext from "@/Context/ProfileContext";
+import WeightContext from "@/Context/WeightContext";
 
 
 
 
 export function WeightReminder(){
-    const {data, dataActions} = useContext(DataContext);
+
+    const {weightData} = useContext(WeightContext);
     const [lastMeasurement, setLastMeasurement] = useState({date: null, weight: null});
     const [showModal, setShowModal] = useState(false);
 
@@ -19,48 +21,29 @@ export function WeightReminder(){
         setShowModal(show);
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-        try {
-            await  dataActions(
-            {type: "consult",
-            payload: {
-            table : "weight_record"
-            }});
-
-            
-        } catch (error) {
-            console.error("Error al enviar los datos:", error);
-            
-        }};
-        fetchData();
-    }, []);
-
 
     useEffect(() => {
         const fetchData = async () => {
-          const resolvedData = await data;
-          if (resolvedData === null) {
-            console.log("Data is null");
-            return;
-          }
+          const resolvedData = await weightData;
+        //   if (resolvedData === null) {
+        //     console.log("Data is null");
+        //     return;
+        //   }
       
           if (resolvedData.length > 0) {
-            resolvedData.forEach((item, index) => {
-                //especifico item.weight porque data puede haber cargado los datos de otra consulta
-              if(item.weight && index === resolvedData.length - 1){
-                console.log("CORRECT!");
-                //solucion temporal. cuando se insertan los datos, se llama este useEffect, pero cuando se llaman,
-                //no aparecen con los datos nuevos aun
-                setTimeout(setLastMeasurement({date: item.date, weight: item.weight}), 2000);
-              }
-            });
+
+            const sortedData = resolvedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            setLastMeasurement({date: sortedData[sortedData.length - 1].date, weight: sortedData[sortedData.length - 1].weight});
+            
+
           } else {
             console.log("WRONG!");
           }
         };
         fetchData();
-      }, [data]);
+      }, [weightData]);
+
 
       useEffect(() =>{
         console.log("entro", lastMeasurement);

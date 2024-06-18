@@ -1,12 +1,9 @@
-
-import DataContext from '@/Context/DataContext';
+import WeightContext from '@/Context/WeightContext';
 import { createChart, ColorType } from 'lightweight-charts';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 export function WeightChart(){
-    const {data, dataActions} = useContext(DataContext);
-
-    const [chartInfo, setChartInfo] = useState([]);
+    const {weightData} = useContext(WeightContext);
 
     const [chartColor, setChartColor] = useState({
         backgroundColor : 'white',
@@ -18,54 +15,43 @@ export function WeightChart(){
 
     const chartContainerRef = useRef();
 
-    useEffect(() => {
-        const fetchData = async () => {
-        try {
-            await  dataActions(
-            {type: "consult",
-            payload: {
-            table : "weight_record"
-            }});
-        } catch (error) {
-            console.error("Error al enviar los datos:", error);            
-        }};
-        fetchData();
-    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
-          const resolvedData = await data;
-          if (resolvedData === null) {
-            console.log("Data is null");
-            return;
-          }
+          const resolvedData = await weightData;
+          // const resolvedData = await data;
+          // if (resolvedData === null) {
+          //   console.log("Data is null");
+          //   return;
+          // }
           
           let weightHistory = [];
           if (resolvedData.length > 0) {
-            resolvedData.forEach((item, index) => {
 
-                //especifico item.weight porque data puede haber cargado los datos de otra consulta
-              if(item.weight){
+            const sortedData = resolvedData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+
+              console.log("odernado", sortedData);
+
+              sortedData.forEach((item, index) => {
 
                 const date = new Date(item.date);
                 const isoDateString = date.toISOString();
 
                weightHistory.push({ time: isoDateString.substring(0, 10) , value: item.weight });
-
-                console.log("CORRECT!");
-              }
             });
-            
-            setChartInfo(weightHistory);
-            
-          } else {
-            console.log("WRONG!");
-          }         
+
+            DrawChart(weightHistory);
+                
+        }
+        else {
+          console.log("WRONG!");
+        }    
         };
         fetchData();
-      }, [data]);
+      }, []);
 
-      function DrawChart(){
+      function DrawChart(chartInfo){
         
         const handleResize = () => {
             chart.applyOptions({ width: chartContainerRef.current.clientWidth });
@@ -94,12 +80,6 @@ export function WeightChart(){
         };
     }
 
-    useEffect(() => {
-        if(chartInfo.length > 0){
-        console.log("hook", chartInfo);
-        DrawChart();
-    }
-    }, [chartInfo]);
 
     return (
         <div

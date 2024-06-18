@@ -1,10 +1,14 @@
 import { useRef, useContext } from "react";
 import { Button, Modal } from "react-bootstrap";
-import DataContext from "@/Context/DataContext";
+import WeightContext from "@/Context/WeightContext";
+import AccountContext from "@/Context/AccountContext";
 
 export default function AddWeightModal({show, showModalCallback}) {
-    const {data, dataActions} = useContext(DataContext);
-    
+
+
+    const {accountData} = useContext(AccountContext);
+    const {weightDataActions} = useContext(WeightContext);
+
     const dayRef = useRef(null);
     const weightRef = useRef(null);
 
@@ -12,16 +16,38 @@ export default function AddWeightModal({show, showModalCallback}) {
 
         event.preventDefault(); // Evita el envío del formulario por defecto
   
-        try {
-          await dataActions(
-            {type: "add", 
-            payload : {table: "weight_record",
-            data: {
-                date: dayRef.current.value, 
-                weight: weightRef.current.value
-            }}});
+        const resolvedData = await accountData;
 
-    
+        try {
+          await weightDataActions(
+            {type: "add", 
+            payload : {data: {
+                date: dayRef.current.value, 
+                weight: weightRef.current.value,
+                account_id: resolvedData[0].id
+            }}});
+              
+            //puesto temporalmente con setTimeOut, porque cuando intenta cargar los datos, aun no se han insertado los datos por lo que no aparecen los ultimos resultados
+            try {
+
+              setTimeout(() => {
+                 weightDataActions(
+                  {type: "getData", 
+                  payload :{
+                    actions: weightDataActions, 
+                    account_id: resolvedData[0].id
+                  }});
+
+                                console.log("peso enviado");
+              },2000);
+
+                  
+
+            } catch (error) {
+              console.error("Error al obtener los datos:", error);
+            }
+
+
         } catch (error) {
           console.error("Error al enviar los datos:", error);
         }

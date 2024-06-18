@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import DataContext from "@/Context/DataContext";
+import AccountContext from '@/Context/AccountContext';
 
 
 function RegistrationForm () {
-  const {data, dataActions} = useContext(DataContext);
+  const {accountDataActions} = useContext(AccountContext);
 
   const router = useRouter();
   const userRef = useRef();
@@ -18,22 +18,17 @@ function RegistrationForm () {
   
     try {
       // Envía los datos al contexto
-      await dataActions(
+      await accountDataActions(
       {type: "add", 
-      payload: {table: "account_list", 
-      data:{user : userRef.current.value,
-        password: passwordRef.current.value, 
-        email: emailRef.current.value
+      payload: {data:{
+                      user : userRef.current.value,
+                      password: passwordRef.current.value, 
+                      email: emailRef.current.value
       }}});
       
-      // Vaciar los campos de entrada
-      // userRef.current.value = "";
-      // emailRef.current.value = "";
-      // passwordRef.current.value = "";
       router.push('/login');
     } catch (error) {
       console.error("Error al enviar los datos:", error);
-      // Manejar el error aquí
     }
 }
 
@@ -58,7 +53,7 @@ function RegistrationForm () {
                   <h2 className="text-uppercase text-center mb-5">Create an account</h2>
                   <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-4">
-                      <Form.Control type="text" placeholder="Your Name" required ref={userRef}/>
+                      <Form.Control type="text" placeholder="Your User" required ref={userRef}/>
                     </Form.Group>
                     <Form.Group className="mb-4">
                       <Form.Control type="email" placeholder="Your Email" required ref={emailRef}/>

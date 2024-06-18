@@ -1,9 +1,6 @@
 import React, { useContext, createContext, useEffect, useReducer } from "react";
 
-import AccountContext from '@/Context/AccountContext';
-
 import { createClient } from '@supabase/supabase-js'
-
 
 const supabaseUrl = 'https://ijnhfoehgzuzlkriaoak.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlqbmhmb2VoZ3p1emxrcmlhb2FrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MTgxNjAsImV4cCI6MjAzMDI5NDE2MH0.cTpLh8D93_WcIl3uo1qwoFbdi9T96lF_fe7BFJnQV6w';
@@ -11,15 +8,15 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 
-const ProfileContext = createContext(null);
+const AccountContext = createContext(null);
 
 
 
-async function ProfileReducer(state, action){
+async function AccountReducer(state, action){
     switch(action.type){
       case "add":                       
         try{          
-            await supabase.from("profile_info").insert(action.payload.data)
+            await supabase.from("account_list").insert(action.payload.data)
             return state;
 
         } catch(error){
@@ -29,7 +26,7 @@ async function ProfileReducer(state, action){
       
       case "remove":                       
         try{          
-            let query = supabase.from('profile_info').delete();
+            let query = supabase.from('account_list').delete();
 
             for (const key in action.payload.data) {
                 const value = action.payload.data[key];            
@@ -45,7 +42,7 @@ async function ProfileReducer(state, action){
 
           console.log("Consultando datos");
 
-          let query = supabase.from("profile_info").select('*').eq("account_id", action.payload.account_id);
+          let query = supabase.from("account_list").select('*').eq("email", action.payload.email).eq("password", action.payload.password);
        
           try{
               const { data } = await query;
@@ -68,24 +65,20 @@ async function ProfileReducer(state, action){
 }
 
 
-export function ProfileProvider({ children }) {
+export function AccountProvider({ children }) {
 
-  const {accountData} = useContext(AccountContext);
-  const [profileData, profileDataActions] = useReducer(ProfileReducer, null);
-
-
-const LoadDataProfile = async () => {
-
-  const resolvedData = await accountData;
+  const [accountData, accountDataActions] = useReducer(AccountReducer, null);
 
 
-    profileDataActions({type: "getData", payload: {
-        actions: profileDataActions,
-        account_id: resolvedData[0].id
+const LoadDataAccount = async () => {
+
+    accountDataActions({type: "getData", payload: {
+        actions: accountDataActions,
+        //account_id: profileData.account_id
     }})
 
     setTimeout(function() {
-        console.log("desde time out", profileData);}
+        console.log("desde time out", accountData);}
         
         
         , 4000)
@@ -93,15 +86,15 @@ const LoadDataProfile = async () => {
 }
 
   useEffect(() => {
-    console.log("hook", profileData);
-  }, [profileData]);
+    console.log("hook", accountData);
+  }, [accountData]);
 
 
   return (
-    <ProfileContext.Provider value={{ profileData, profileDataActions, LoadDataProfile }}>
+    <AccountContext.Provider value={{ accountData, accountDataActions, LoadDataAccount }}>
       {children}
-    </ProfileContext.Provider>
+    </AccountContext.Provider>
   );
 }
 
-export default ProfileContext;
+export default AccountContext;

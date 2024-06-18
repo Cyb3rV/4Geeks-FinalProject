@@ -1,71 +1,79 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import Link from "next/link";
-import DataContext from "@/Context/DataContext";
 import { useRouter } from 'next/router';
+import AccountContext from '@/Context/AccountContext';
 import ProfileContext from '@/Context/ProfileContext';
+import RoutineContext from '@/Context/RoutineContext';
+import WeightContext from '@/Context/WeightContext';
 
 
 function LogInForm() {
   const router = useRouter();
-  const {profileData, setProfileData} = useContext(ProfileContext);
-  const {data, dataActions} = useContext(DataContext);
+
+  const {accountData, accountDataActions} = useContext(AccountContext); 
+  const {LoadDataProfile} = useContext(ProfileContext);
+  const {LoadDataRoutine} = useContext(RoutineContext);
+  const {LoadDataWeight} = useContext(WeightContext);
+
   const [loginError, setLoginError] = useState(false);
 
   const emailRef = useRef();
   const passwordRef = useRef();
   
-  const handleSubmit = async (event) => {
-    event.preventDefault(); // Evita el envío del formulario por defecto
-  
-    try {
-      // Envía los datos al contexto
-      await dataActions(
-      {type: "consultWithCondition", 
-      payload: {table: "account_list", 
-      data:{password: passwordRef.current.value, 
-            email: emailRef.current.value
-      }}});
+
+const handleSubmit = async (event) => {
+  event.preventDefault(); // Evita el envío del formulario por defecto
+
+  try {
+    // Envía los datos al contexto
+    await accountDataActions(
+    {type: "getData", 
+    payload: {password: passwordRef.current.value, email: emailRef.current.value}
+    });
 
 
-    } catch (error) {
-      console.error("Error al enviar los datos:", error);
-      
-    }
+  } catch (error) {
+    console.error("Error al enviar los datos:", error);
+    
+  }
 }
+
 
 useEffect(() => {
   const fetchData = async () => {
-    const resolvedData = await data;
+    const resolvedData = await accountData;
     if (resolvedData === null) {
       console.log("Data is null");
       return;
     }
 
-    if (resolvedData.length > 0) {
-      resolvedData.forEach(item => {
-        if(item.email === emailRef.current.value && item.password === passwordRef.current.value){
-          console.log("CORRECT!");
-         
-          router.push('/home');
-          // setProfileData({...profileData, email: item.email, account_id: item.id, userName: item.user})
-          setProfileData({email: item.email, account_id: item.id, userName: item.user});
-          //setProfileData({...profileData, email: [...profileData.email, item.email], account_id:})
-          // setLoginError(false);
-
+    else{
+      //lo puse en la posicion 0 porque devuelve un array aunque sea un solo elemento. No deberia haber dobles porque en la BD no se pueden repetir email
+      if(resolvedData.length > 0 && 
+        resolvedData[0].email === emailRef.current.value && 
+        resolvedData[0].password === passwordRef.current.value){
           
-          setTimeout(() => {
-            
-          }, 2000);
-        }
-      });
-    } else {
-      console.log("WRONG!");
-      setLoginError(true);
-    }
-  };
+        console.log("Logged Succesfully");
+        
+        LoadDataProfile();
+        LoadDataRoutine();
+        LoadDataWeight();
+
+        router.push('/home');
+      
+      }
+        
+      else {
+        console.log("There was an error when you tried to log in");
+        setLoginError(true);
+      }
+
+    };
+  }
+  console.log("ejecutando desde accountData" , accountData);
   fetchData();
-}, [data]);
+}, [accountData]);
 
 
 useEffect(() => {

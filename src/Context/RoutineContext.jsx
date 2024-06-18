@@ -4,22 +4,21 @@ import AccountContext from '@/Context/AccountContext';
 
 import { createClient } from '@supabase/supabase-js'
 
-
 const supabaseUrl = 'https://ijnhfoehgzuzlkriaoak.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlqbmhmb2VoZ3p1emxrcmlhb2FrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ3MTgxNjAsImV4cCI6MjAzMDI5NDE2MH0.cTpLh8D93_WcIl3uo1qwoFbdi9T96lF_fe7BFJnQV6w';
 // Create a single supabase client for interacting with your database
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 
-const ProfileContext = createContext(null);
+const RoutineContext = createContext(null);
 
 
 
-async function ProfileReducer(state, action){
+async function RoutineReducer(state, action){
     switch(action.type){
       case "add":                       
         try{          
-            await supabase.from("profile_info").insert(action.payload.data)
+            await supabase.from("routine").insert(action.payload.data)
             return state;
 
         } catch(error){
@@ -29,7 +28,7 @@ async function ProfileReducer(state, action){
       
       case "remove":                       
         try{          
-            let query = supabase.from('profile_info').delete();
+            let query = supabase.from('routine').delete();
 
             for (const key in action.payload.data) {
                 const value = action.payload.data[key];            
@@ -45,7 +44,7 @@ async function ProfileReducer(state, action){
 
           console.log("Consultando datos");
 
-          let query = supabase.from("profile_info").select('*').eq("account_id", action.payload.account_id);
+          let query = supabase.from("routine").select('*').eq("account_id", action.payload.account_id);
        
           try{
               const { data } = await query;
@@ -68,24 +67,24 @@ async function ProfileReducer(state, action){
 }
 
 
-export function ProfileProvider({ children }) {
+export function RoutineProvider({ children }) {
 
   const {accountData} = useContext(AccountContext);
-  const [profileData, profileDataActions] = useReducer(ProfileReducer, null);
+  const [routineData, routineDataActions] = useReducer(RoutineReducer, null);
 
 
-const LoadDataProfile = async () => {
+const LoadDataRoutine = async () => {
+
 
   const resolvedData = await accountData;
 
-
-    profileDataActions({type: "getData", payload: {
-        actions: profileDataActions,
+    routineDataActions({type: "getData", payload: {
+        actions: routineDataActions,
         account_id: resolvedData[0].id
     }})
 
     setTimeout(function() {
-        console.log("desde time out", profileData);}
+        console.log("desde time out", routineData);}
         
         
         , 4000)
@@ -93,15 +92,15 @@ const LoadDataProfile = async () => {
 }
 
   useEffect(() => {
-    console.log("hook", profileData);
-  }, [profileData]);
+    console.log("hook", routineData);
+  }, [routineData]);
 
 
   return (
-    <ProfileContext.Provider value={{ profileData, profileDataActions, LoadDataProfile }}>
+    <RoutineContext.Provider value={{ routineData, routineDataActions, LoadDataRoutine }}>
       {children}
-    </ProfileContext.Provider>
+    </RoutineContext.Provider>
   );
 }
 
-export default ProfileContext;
+export default RoutineContext;
